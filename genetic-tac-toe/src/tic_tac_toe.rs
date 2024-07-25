@@ -22,6 +22,28 @@ impl TicTacToe {
             .filter_map(|(i, &x)| if x == ' ' { Some(i) } else { None })
             .collect()
     }
+
+    /// Makes a move on the board.
+    ///
+    /// # Arguments
+    ///
+    /// * `square` - The index of the square to make the move on.
+    /// * `letter` - The letter to place on the square.
+    ///
+    /// # Returns
+    ///
+    /// Returns `true` if the move was successful, `false` otherwise.
+    pub fn make_move(&mut self, square: usize, letter: char) -> bool {
+        if self.board[square] == ' ' {
+            self.board[square] = letter;
+            if self.winner(square, letter) {
+                self.current_winner = Some(letter);
+            }
+            return true;
+        }
+        false
+    }
+
 }
 
 #[cfg(test)]
@@ -33,6 +55,14 @@ mod tests {
         let game = TicTacToe::new();
         assert_eq!(game.board, [' '; 9]);
         assert_eq!(game.current_winner, None);
+    }
+
+    #[test]
+    fn test_make_move() {
+        let mut game = TicTacToe::new();
+        assert!(game.make_move(0, 'X'));
+        assert_eq!(game.board[0], 'X');
+        assert!(!game.make_move(0, 'O')); // Square already taken
     }
 
 
