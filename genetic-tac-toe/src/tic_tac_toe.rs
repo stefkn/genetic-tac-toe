@@ -44,6 +44,36 @@ impl TicTacToe {
         false
     }
 
+    /// Checks if a player has won the game.
+    ///
+    /// # Arguments
+    ///
+    /// * `square` - The index of the last move made.
+    /// * `letter` - The letter of the player who made the last move.
+    ///
+    /// # Returns
+    ///
+    /// Returns `true` if the player has won, `false` otherwise.
+    pub fn winner(&self, square: usize, letter: char) -> bool {
+        let row_index = square / 3;
+        let col_index = square % 3;
+
+        // Check row
+        if self.board[row_index * 3..row_index * 3 + 3].iter().all(|&x| x == letter) {
+            return true;
+        }
+        // Check column
+        if (0..3).all(|i| self.board[col_index + i * 3] == letter) {
+            return true;
+        }
+        // Check diagonals
+        if square % 2 == 0 {
+            if (0..3).all(|i| self.board[i * 4] == letter) || (0..3).all(|i| self.board[i * 2 + 2] == letter) {
+                return true;
+            }
+        }
+        false
+    }
 }
 
 #[cfg(test)]
@@ -65,6 +95,14 @@ mod tests {
         assert!(!game.make_move(0, 'O')); // Square already taken
     }
 
+    #[test]
+    fn test_winner() {
+        let mut game = TicTacToe::new();
+        game.make_move(0, 'X');
+        game.make_move(1, 'X');
+        game.make_move(2, 'X');
+        assert!(game.winner(2, 'X'));
+    }
 
     #[test]
     fn test_available_moves() {
