@@ -13,6 +13,15 @@ impl TicTacToe {
         }
     }
 
+
+    /// Returns a vector of available moves on the board.
+    pub fn available_moves(&self) -> Vec<usize> {
+        self.board
+            .iter()
+            .enumerate()
+            .filter_map(|(i, &x)| if x == ' ' { Some(i) } else { None })
+            .collect()
+    }
 }
 
 #[cfg(test)]
@@ -26,4 +35,13 @@ mod tests {
         assert_eq!(game.current_winner, None);
     }
 
+
+    #[test]
+    fn test_available_moves() {
+        let mut game = TicTacToe::new();
+        game.make_move(0, 'X');
+        let available_moves = game.available_moves();
+        assert_eq!(available_moves.len(), 8);
+        assert!(!available_moves.contains(&0));
+    }
 }
