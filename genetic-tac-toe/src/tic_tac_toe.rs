@@ -13,6 +13,17 @@ impl TicTacToe {
         }
     }
 
+    // Returns the current state of the board.
+    pub fn get_board(&self) -> [char; 9] {
+        self.board
+    }
+
+    /// Prints the current state of the Tic Tac Toe board.
+    pub fn print_board(&self) {
+        for row in self.board.chunks(3) {
+            println!("| {} | {} | {} |", row[0], row[1], row[2]);
+        }
+    }
 
     /// Returns a vector of available moves on the board.
     pub fn available_moves(&self) -> Vec<usize> {
@@ -111,5 +122,11 @@ mod tests {
         let available_moves = game.available_moves();
         assert_eq!(available_moves.len(), 8);
         assert!(!available_moves.contains(&0));
+    }
+
+    #[test]
+    fn test_get_board() {
+        let game = TicTacToe::new();
+        assert_eq!(game.get_board(), [' '; 9]);
     }
 }
