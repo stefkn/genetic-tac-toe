@@ -1,7 +1,7 @@
 /// Represents a Tic Tac Toe game.
 pub struct TicTacToe {
     board: [char; 9],
-    current_winner: Option<char>,
+    pub current_winner: Option<char>,
 }
 
 impl TicTacToe {
