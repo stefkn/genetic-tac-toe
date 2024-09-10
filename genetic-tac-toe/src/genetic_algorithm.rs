@@ -123,3 +123,25 @@ impl GeneticAlgorithm {
         }
     }
 }
+
+pub struct StrategyPlayer {
+    letter: char,
+    strategy: Chromosome,
+}
+
+impl StrategyPlayer {
+    pub fn new(letter: char, strategy: Chromosome) -> Self {
+        Self { letter, strategy }
+    }
+}
+
+impl Player for StrategyPlayer {
+    fn get_move(&self, game: &TicTacToe) -> usize {
+        for &mv in &self.strategy {
+            if game.available_moves().contains(&mv) {
+                return mv;
+            }
+        }
+        *game.available_moves().first().unwrap()
+    }
+}
